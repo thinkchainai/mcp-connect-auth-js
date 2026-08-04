@@ -1,6 +1,6 @@
 {
   "name": "@mcpbundles/mcp-connect-auth",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "MCP Connect Auth client library for Node.js",
   "license": "MIT",
   "type": "module",
@@ -24,9 +24,15 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/public-config.test.ts src/federation.test.ts src/jwt-verifier.test.ts src/factory.test.ts src/middleware/connect-auth.test.ts"
+  },
+  "dependencies": {
+    "jose": "^6.0.11"
   },
   "devDependencies": {
+    "@types/node": "^22.14.0",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.0"
   }
 }
