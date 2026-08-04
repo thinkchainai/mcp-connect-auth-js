@@ -1,4 +1,4 @@
-# mcpbundles-mcp-connect-auth
+# @mcpbundles/mcp-connect-auth
 
 Node.js client library for [MCP Connect Auth](https://www.mcpbundles.com/docs/integrations/mcp-connect-auth) on MCPBundles.
 
@@ -12,7 +12,7 @@ Node.js client library for [MCP Connect Auth](https://www.mcpbundles.com/docs/in
 ## Install
 
 ```bash
-npm install mcpbundles-mcp-connect-auth
+npm install @mcpbundles/mcp-connect-auth
 ```
 
 ## Quickstart
@@ -24,7 +24,7 @@ Publish with MCP Connect Auth, set your federation sign-in URL, and call `comple
 ### Path A — vendor origin (Node MCP server)
 
 ```typescript
-import { createMcpbundlesServer } from "mcpbundles-mcp-connect-auth";
+import { createMcpbundlesServer } from "@mcpbundles/mcp-connect-auth";
 
 const server = await createMcpbundlesServer({
   listingSlug: process.env.MCPBUNDLES_LISTING_SLUG!,
@@ -45,7 +45,7 @@ import http from "node:http";
 import {
   createConnectAuthMiddleware,
   getVerifiedAccessToken,
-} from "mcpbundles-mcp-connect-auth";
+} from "@mcpbundles/mcp-connect-auth";
 
 const connectAuth = createConnectAuthMiddleware({
   listingSlug: process.env.MCPBUNDLES_LISTING_SLUG!,
@@ -86,7 +86,7 @@ server.listen(3000);
 Call from your sign-in route after the user authenticates. Keep the federation secret on the server only.
 
 ```typescript
-import { completeFederation } from "mcpbundles-mcp-connect-auth";
+import { completeFederation } from "@mcpbundles/mcp-connect-auth";
 
 await completeFederation({
   listingSlug: process.env.MCPBUNDLES_LISTING_SLUG!,
