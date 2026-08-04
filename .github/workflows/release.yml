@@ -37,6 +37,5 @@ jobs:
       - name: Publish to npm
         run: npm publish --provenance --access public
 
-# Same NPM_TOKEN repo secret as thinkchainai/mcpbundles-proxy.
+# Package: mcpbundles-mcp-connect-auth (unscoped; same npm account as `mcpbundles` CLI).
 # setup-node maps secrets.NPM_TOKEN → NODE_AUTH_TOKEN when registry-url is set.
-# Package: @mcpbundles/mcp-connect-auth under the existing @mcpbundles org.

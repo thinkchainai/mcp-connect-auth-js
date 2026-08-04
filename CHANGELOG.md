@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial public release of `@mcpbundles/mcp-connect-auth`
+- Initial public release of `mcpbundles-mcp-connect-auth`
 - `createConnectAuthMiddleware` — RFC 9728 protected-resource metadata and Bearer JWT verification for MCP routes
 - `getVerifiedAccessToken` — read verified access token claims attached by the middleware
 - `completeFederation` — finish OAuth federation after your sign-in flow

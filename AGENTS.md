@@ -1,4 +1,4 @@
-# @mcpbundles/mcp-connect-auth — Agent Context
+# mcpbundles-mcp-connect-auth — Agent Context
 
 Public npm package for MCP Connect Auth on MCPBundles. Submodule of the MCPBundles monorepo at `public_github_repos/mcp-connect-auth-js`.
 
