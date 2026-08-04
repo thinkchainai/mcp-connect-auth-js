@@ -14,7 +14,7 @@ jobs:
     name: Publish to npm
     runs-on: ubuntu-latest
     environment:
-      name: npm
+      name: ${{ vars.PUBLISH_ENVIRONMENT }}
       url: https://www.npmjs.com/package/@mcpbundles/mcp-connect-auth
     steps:
       - name: Checkout repository
@@ -60,6 +60,8 @@ jobs:
 #     Workflow filename: release.yml
 #     Environment name: npm
 #     Allowed actions: npm publish
+#
+# Repository variable `PUBLISH_ENVIRONMENT=npm` must exist on this repo (created).
 #
 # Do NOT add NPM_TOKEN to this repo — long-lived write tokens interfere with OIDC
 # and npm will warn you to use Trusted Publishing instead. This workflow only
