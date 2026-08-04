@@ -1,0 +1,32 @@
+{
+  "name": "@mcpbundles/mcp-connect-auth",
+  "version": "0.0.0",
+  "description": "MCP Connect Auth client library for Node.js",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "LICENSE", "README.md"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thinkchainai/mcp-connect-auth-js"
+  },
+  "homepage": "https://www.mcpbundles.com/docs/integrations/mcp-connect-auth",
+  "keywords": ["mcp", "oauth", "mcpbundles"],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}
