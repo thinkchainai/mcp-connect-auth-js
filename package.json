@@ -13,13 +13,21 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "LICENSE", "README.md"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/thinkchainai/mcp-connect-auth-js"
   },
   "homepage": "https://www.mcpbundles.com/docs/integrations/mcp-connect-auth",
-  "keywords": ["mcp", "oauth", "mcpbundles"],
+  "keywords": [
+    "mcp",
+    "oauth",
+    "mcpbundles"
+  ],
   "engines": {
     "node": ">=18"
   },
@@ -30,7 +38,8 @@
     "test": "node --import tsx --test 'src/**/*.test.ts'"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "dependencies": {
     "jose": "^6.0.11"

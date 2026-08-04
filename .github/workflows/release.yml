@@ -50,7 +50,7 @@ jobs:
 #
 #   cd public_github_repos/mcp-connect-auth-js
 #   npx setup-trusted-publishing@latest --access public
-#   (complete npm 2FA in the browser when prompted)
+#   (run `npm login` first if ENEEDAUTH; complete npm 2FA in browser when prompted)
 #
 # Then add the trusted publisher on npm (exact fields):
 #   https://www.npmjs.com/package/@mcpbundles/mcp-connect-auth/settings
