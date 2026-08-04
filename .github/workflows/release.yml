@@ -13,9 +13,6 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
-    environment:
-      name: npm
-      url: https://www.npmjs.com/package/@mcpbundles/mcp-connect-auth
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,11 +36,7 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-# npm publish setup (one-time — do BEFORE tagging v0.1.0):
-# 1. Create @mcpbundles org on npmjs.com (if not exists) and grant publish access.
-# 2. Create npm automation token with publish scope for @mcpbundles.
-# 3. Add NPM_TOKEN to GitHub environment "npm" (Settings → Environments → npm → Secrets).
-# 4. Only then tag v0.1.0 — publish fails with ENEEDAUTH until step 3 is done.
+# Same NPM_TOKEN repo secret as thinkchainai/mcpbundles-proxy.
+# setup-node maps secrets.NPM_TOKEN → NODE_AUTH_TOKEN when registry-url is set.
+# Package: @mcpbundles/mcp-connect-auth under the existing @mcpbundles org.
