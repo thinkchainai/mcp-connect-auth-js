@@ -58,4 +58,36 @@ describe("completeFederation", () => {
         error instanceof ConnectAuthError && error.code === "federation_unauthorized",
     );
   });
+
+  it("rejects empty federationSecret, state, and subject", async () => {
+    const fetchMock: typeof fetch = async () => {
+      throw new Error("fetch should not be called for invalid input");
+    };
+
+    const base = {
+      listingSlug: "demo-listing",
+      federationSecret: "fed-secret",
+      state: "state-123",
+      subject: "user-456",
+      fetch: fetchMock,
+    };
+
+    await assert.rejects(
+      () => completeFederation({ ...base, federationSecret: "" }),
+      (error: unknown) =>
+        error instanceof ConnectAuthError && error.code === "federation_invalid_input",
+    );
+
+    await assert.rejects(
+      () => completeFederation({ ...base, state: "" }),
+      (error: unknown) =>
+        error instanceof ConnectAuthError && error.code === "federation_invalid_input",
+    );
+
+    await assert.rejects(
+      () => completeFederation({ ...base, subject: "" }),
+      (error: unknown) =>
+        error instanceof ConnectAuthError && error.code === "federation_invalid_input",
+    );
+  });
 });

@@ -4,6 +4,7 @@
   "description": "MCP Connect Auth client library for Node.js",
   "license": "MIT",
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -23,9 +24,13 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "node scripts/sync-version.mjs && tsc",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/public-config.test.ts src/federation.test.ts src/jwt-verifier.test.ts src/factory.test.ts src/middleware/connect-auth.test.ts"
+    "test": "node --import tsx --test 'src/**/*.test.ts'"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "jose": "^6.0.11"

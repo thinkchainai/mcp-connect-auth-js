@@ -36,6 +36,51 @@ const server = await createMcpbundlesServer({
 // Call server.onInitialize?.(...) after MCP initialize when telemetry is enabled.
 ```
 
+### Connect Auth middleware with `node:http`
+
+Use `createConnectAuthMiddleware` directly when you own the HTTP server. The middleware serves RFC 9728 metadata, verifies Bearer JWTs on your MCP path, and attaches the verified token to the request for downstream handlers.
+
+```typescript
+import http from "node:http";
+import {
+  createConnectAuthMiddleware,
+  getVerifiedAccessToken,
+} from "@mcpbundles/mcp-connect-auth";
+
+const connectAuth = createConnectAuthMiddleware({
+  listingSlug: process.env.MCPBUNDLES_LISTING_SLUG!,
+  baseUrl: process.env.MCP_BASE_URL!,
+  mcpPath: "/mcp",
+});
+
+const server = http.createServer(async (req, res) => {
+  const request = new Request(`http://${req.headers.host}${req.url}`, {
+    method: req.method,
+    headers: req.headers as HeadersInit,
+  });
+
+  const authResponse = await connectAuth.handleRequest(request);
+  if (authResponse) {
+    res.writeHead(authResponse.status, Object.fromEntries(authResponse.headers));
+    res.end(Buffer.from(await authResponse.arrayBuffer()));
+    return;
+  }
+
+  const token = getVerifiedAccessToken(request);
+  if (token && req.url?.startsWith("/mcp")) {
+    // token.subject is the federated user id; handle your MCP JSON-RPC here.
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ jsonrpc: "2.0", result: {}, id: null }));
+    return;
+  }
+
+  res.writeHead(404);
+  res.end("Not found");
+});
+
+server.listen(3000);
+```
+
 ### Federation complete (web app)
 
 Call from your sign-in route after the user authenticates. Keep the federation secret on the server only.

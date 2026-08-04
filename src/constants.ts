@@ -1,3 +1,4 @@
+// VERSION is synced from package.json by scripts/sync-version.mjs during build.
 export const VERSION = "0.1.0";
 
 export const DEFAULT_API_BASE_URL = "https://api.mcpbundles.com";

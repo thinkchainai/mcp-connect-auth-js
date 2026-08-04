@@ -5,9 +5,29 @@ import {
 } from "./types.js";
 import { federationCompleteUrl } from "./urls.js";
 
+function assertFederationInput(options: CompleteFederationOptions): void {
+  if (!options.federationSecret) {
+    throw new ConnectAuthError("federationSecret is required", {
+      code: "federation_invalid_input",
+    });
+  }
+  if (!options.state) {
+    throw new ConnectAuthError("state is required", {
+      code: "federation_invalid_input",
+    });
+  }
+  if (!options.subject) {
+    throw new ConnectAuthError("subject is required", {
+      code: "federation_invalid_input",
+    });
+  }
+}
+
 export async function completeFederation(
   options: CompleteFederationOptions,
 ): Promise<CompleteFederationResult> {
+  assertFederationInput(options);
+
   const fetchFn = options.fetch ?? globalThis.fetch;
   const url = federationCompleteUrl(options.listingSlug, options.apiBaseUrl);
 
