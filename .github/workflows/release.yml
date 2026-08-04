@@ -42,7 +42,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-# npm publish setup:
-# 1. Create an npm access token with publish scope for @mcpbundles.
-# 2. Add NPM_TOKEN to the GitHub "npm" environment (Settings → Environments → npm).
-# 3. Tag v0.1.0 (or later) to trigger this workflow.
+# npm publish setup (one-time — do BEFORE tagging v0.1.0):
+# 1. Create @mcpbundles org on npmjs.com (if not exists) and grant publish access.
+# 2. Create npm automation token with publish scope for @mcpbundles.
+# 3. Add NPM_TOKEN to GitHub environment "npm" (Settings → Environments → npm → Secrets).
+# 4. Only then tag v0.1.0 — publish fails with ENEEDAUTH until step 3 is done.
