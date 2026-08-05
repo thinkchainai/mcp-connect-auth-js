@@ -31,7 +31,7 @@ export async function completeFederation(
   const fetchFn = options.fetch ?? globalThis.fetch;
   const url = federationCompleteUrl(options.listingSlug, options.apiBaseUrl);
 
-  const body: Record<string, string> = {
+  const body: Record<string, unknown> = {
     state: options.state,
     subject: options.subject,
   };
@@ -41,6 +41,9 @@ export async function completeFederation(
   }
   if (options.email !== undefined) {
     body.email = options.email;
+  }
+  if (options.roles !== undefined) {
+    body.roles = options.roles;
   }
 
   let response: Response;

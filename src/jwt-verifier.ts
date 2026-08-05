@@ -105,6 +105,12 @@ export class ConnectAuthJwtVerifier {
 
     const organizationId =
       typeof payload.organization_id === "string" ? payload.organization_id : undefined;
+    const email = typeof payload.email === "string" ? payload.email : undefined;
+    const roles = Array.isArray(payload.roles)
+      ? payload.roles.filter(
+          (role: unknown): role is string => typeof role === "string",
+        )
+      : undefined;
 
     return {
       token,
@@ -112,6 +118,8 @@ export class ConnectAuthJwtVerifier {
       subject,
       scopes,
       organizationId,
+      email,
+      roles,
       audience: payload.aud ?? [],
       issuer: typeof payload.iss === "string" ? payload.iss : this.publicConfig.issuer,
       expiresAt: typeof payload.exp === "number" ? payload.exp : undefined,

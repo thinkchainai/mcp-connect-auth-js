@@ -1,6 +1,7 @@
 export { VERSION, DEFAULT_API_BASE_URL, INTEGRATION_DOC_URL } from "./constants.js";
 
 export { completeFederation } from "./federation.js";
+export { connectAuthCallbackIdentity } from "./identity.js";
 export { fetchPublicConfig, parsePublicConfig } from "./public-config.js";
 export { createMcpbundlesServer, mcpbundlesMcpServer } from "./factory.js";
 export { ConnectAuthJwtVerifier, createJwtVerifier } from "./jwt-verifier.js";
@@ -25,6 +26,7 @@ export {
 export type {
   CompleteFederationOptions,
   CompleteFederationResult,
+  ConnectAuthCallbackIdentity,
   ConnectAuthMiddleware,
   ConnectAuthMiddlewareOptions,
   CreateMcpbundlesServerOptions,

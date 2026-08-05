@@ -18,10 +18,28 @@ export interface VerifiedAccessToken {
   subject: string;
   scopes: string[];
   organizationId?: string;
+  email?: string;
+  roles?: string[];
   audience: string | string[];
   issuer: string;
   expiresAt?: number;
   rawClaims: Record<string, unknown>;
+}
+
+/** Canonical Connect Auth tool callback payload (`get-user-info` shape). */
+export interface ConnectAuthCallbackIdentity {
+  user: {
+    id: string;
+    organizationId: string | null;
+    email: string | null;
+    roles: string[];
+  };
+  auth: {
+    clientId: string;
+    scopes: string[];
+    expiresAt?: number;
+    resource: string | null;
+  };
 }
 
 export interface FetchPublicConfigOptions {
@@ -38,6 +56,7 @@ export interface CompleteFederationOptions {
   subject: string;
   organizationId?: string;
   email?: string;
+  roles?: string[];
   apiBaseUrl?: string;
   fetch?: typeof globalThis.fetch;
   signal?: AbortSignal;

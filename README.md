@@ -6,6 +6,7 @@ Node.js client library for [MCP Connect Auth](https://www.mcpbundles.com/docs/in
 
 - HTTP middleware for MCP routes (RFC 9728 protected-resource metadata + Bearer JWT verify)
 - `completeFederation()` — finish OAuth federation after your sign-in flow
+- `connectAuthCallbackIdentity()` — canonical `get-user-info` JSON from a verified token
 - `createMcpbundlesServer()` factory — parity with Python `mcpbundles_fastmcp()` (auth + optional initialize handshake telemetry)
 - Optional origin handshake telemetry hook when your listing enables it
 
@@ -44,6 +45,7 @@ Use `createConnectAuthMiddleware` directly when you own the HTTP server. The mid
 import http from "node:http";
 import {
   createConnectAuthMiddleware,
+  connectAuthCallbackIdentity,
   getVerifiedAccessToken,
 } from "@mcpbundles/mcp-connect-auth";
 
@@ -68,9 +70,10 @@ const server = http.createServer(async (req, res) => {
 
   const token = getVerifiedAccessToken(request);
   if (token && req.url?.startsWith("/mcp")) {
-    // token.subject is the federated user id; handle your MCP JSON-RPC here.
+    const identity = connectAuthCallbackIdentity(token);
+    // identity.user.id, identity.auth.clientId — same shape as mcp-use / FastMCP examples
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ jsonrpc: "2.0", result: {}, id: null }));
+    res.end(JSON.stringify({ jsonrpc: "2.0", result: identity, id: null }));
     return;
   }
 
@@ -94,6 +97,8 @@ await completeFederation({
   state: req.query.state,
   subject: user.id,
   organizationId: user.organizationId,
+  email: user.email,
+  roles: user.roles,
 });
 ```
 
