@@ -1,6 +1,6 @@
 {
   "name": "@mcpbundles/mcp-connect-auth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP Connect Auth client library for Node.js",
   "license": "MIT",
   "type": "module",
