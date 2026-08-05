@@ -87,11 +87,7 @@ export class ConnectAuthJwtVerifier {
     }
 
     const clientId =
-      typeof payload.client_id === "string"
-        ? payload.client_id
-        : typeof payload.azp === "string"
-          ? payload.azp
-          : null;
+      typeof payload.client_id === "string" ? payload.client_id.trim() : "";
     const subject = typeof payload.sub === "string" ? payload.sub : null;
 
     if (!clientId || !subject) {
