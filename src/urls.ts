@@ -51,3 +51,11 @@ export function joinResourceUrl(resourceBaseUrl: string, mcpPath?: string): stri
 export function requestPathname(url: string): string {
   return new URL(url).pathname;
 }
+
+export function expectedConnectAuthIssuers(issuer: string): string[] {
+  const normalized = issuer.replace(/\/+$/, "");
+  if (normalized === issuer) {
+    return [issuer, `${issuer}/`];
+  }
+  return [issuer, normalized];
+}

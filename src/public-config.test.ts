@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 
 import { parsePublicConfig } from "./public-config.js";
 import { ConnectAuthError } from "./types.js";
-import { publicConfigUrl } from "./urls.js";
+import { expectedConnectAuthIssuers, publicConfigUrl } from "./urls.js";
 
 const SAMPLE_PUBLIC_CONFIG = {
   contract_version: "2026-07-29",
@@ -39,5 +39,14 @@ describe("public-config", () => {
       (error: unknown) =>
         error instanceof ConnectAuthError && error.code === "invalid_public_config",
     );
+  });
+
+  it("expectedConnectAuthIssuers accepts trailing-slash variants", () => {
+    const issuer = "https://api.example.com/connect-auth/tenants/demo-listing";
+    assert.deepEqual(expectedConnectAuthIssuers(issuer), [
+      issuer,
+      `${issuer}/`,
+    ]);
+    assert.deepEqual(expectedConnectAuthIssuers(`${issuer}/`), [`${issuer}/`, issuer]);
   });
 });

@@ -11,6 +11,7 @@ import {
   type PublicConfig,
   type VerifiedAccessToken,
 } from "./types.js";
+import { expectedConnectAuthIssuers } from "./urls.js";
 
 function parseScopes(rawScope: unknown): string[] {
   if (typeof rawScope !== "string" || rawScope.trim().length === 0) {
@@ -52,7 +53,7 @@ export class ConnectAuthJwtVerifier {
 
   private verifyOptions(): JWTVerifyOptions {
     return {
-      issuer: this.publicConfig.issuer,
+      issuer: expectedConnectAuthIssuers(this.publicConfig.issuer),
       audience: [
         this.publicConfig.origin_resource,
         this.publicConfig.bundle_proxy_resource,

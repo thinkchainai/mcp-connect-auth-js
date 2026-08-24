@@ -4,6 +4,7 @@ import { exportJWK, generateKeyPair, SignJWT } from "jose";
 
 import { ConnectAuthJwtVerifier } from "./jwt-verifier.js";
 import type { PublicConfig } from "./types.js";
+import { expectedConnectAuthIssuers } from "./urls.js";
 
 const PUBLIC_CONFIG: PublicConfig = {
   contract_version: "2026-07-29",
@@ -106,5 +107,43 @@ describe("ConnectAuthJwtVerifier", () => {
 
     const verified = await verifier.verifyAccessToken(token);
     assert.equal(verified, null);
+  });
+
+  it("accepts issuer without trailing slash when public-config issuer has one", async () => {
+    const publicConfig: PublicConfig = {
+      ...PUBLIC_CONFIG,
+      issuer: `${PUBLIC_CONFIG.issuer}/`,
+    };
+    const { privateKey, publicKey } = await generateKeyPair("ES256");
+    const publicJwk = await exportJWK(publicKey);
+    publicJwk.kid = "test-key";
+    publicJwk.alg = "ES256";
+    publicJwk.use = "sig";
+
+    const fetchMock: typeof fetch = async () =>
+      new Response(JSON.stringify({ keys: [publicJwk] }), { status: 200 });
+
+    const token = await new SignJWT({
+      scope: "mcp:tools",
+      client_id: "client-1",
+    })
+      .setProtectedHeader({ alg: "ES256", kid: "test-key" })
+      .setIssuer(PUBLIC_CONFIG.issuer)
+      .setSubject("user-1")
+      .setAudience(PUBLIC_CONFIG.origin_resource)
+      .setExpirationTime("2h")
+      .sign(privateKey);
+
+    const verifier = new ConnectAuthJwtVerifier({
+      publicConfig,
+      fetch: fetchMock,
+    });
+
+    const verified = await verifier.verifyAccessToken(token);
+    assert.ok(verified);
+    assert.deepEqual(
+      expectedConnectAuthIssuers(publicConfig.issuer),
+      [publicConfig.issuer, PUBLIC_CONFIG.issuer],
+    );
   });
 });
